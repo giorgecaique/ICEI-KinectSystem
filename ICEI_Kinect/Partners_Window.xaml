@@ -1,0 +1,165 @@
+﻿<Window x:Class="ICEI_Kinect.Partners_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ICEI_Kinect"
+        mc:Ignorable="d"
+        Title="ICEI" Height="700" Width="1200" WindowState="Maximized" ResizeMode="NoResize">
+
+    <!--#region Resources -->
+    <Window.Resources>
+        <PathGeometry x:Key="ChevronGeometry" x:Shared="False">
+            F1M150.001,146.9932L126.565,169.3822L126.565,153.5962L150.001,130.6182L173.435,153.5962L173.435,169.3822z
+        </PathGeometry>
+
+        <Path x:Key="ChevronUp" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronRight" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronDown" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronLeft" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Style x:Key="KinectHandControlStye" TargetType="{x:Type local:KinectHandControl}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:KinectHandControl}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsHandPointerOver" Value="True">
+                    <Setter Property="Background" Value="#5A5B5B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <!--#endregion-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0"  Height="110" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Background="#FF681BB6"  >
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Parcerias" FontFamily="Segoe UI Light" FontSize="40" Width="383" Foreground="White" Margin="41,-8,0,0"></Label>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="None" Margin="0 0 0 4"/>
+            <k:KinectUserViewer k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+        </Grid>
+        <k:KinectRegion Grid.Row="1" x:Name="kinectRegion" Grid.ColumnSpan="2">
+            <k:KinectScrollViewer Width="890">
+                <TextBlock FontSize="18.667" Height="2335" Width="875" FontFamily="Segoe UI Light"><InlineUIContainer>
+                		<Image
+                			d:DesignUseLayoutRounding="True" Width="875" Height="219" UseLayoutRounding="True" Stretch="Fill" RenderTransformOrigin="0.5,0.5" x:Name="image" >
+                			<Image.Source
+            >
+                				<ImageSource
+            >Images/Hero_Business_Capabilities-Overview-desktop_0.jpg</ImageSource>
+                			</Image.Source>
+                			<Image.RenderTransform
+            >
+                				<TransformGroup
+            >
+                					<ScaleTransform
+            />
+                					<SkewTransform
+                						AngleX="-1.375"/>
+                					<RotateTransform
+            />
+                					<TranslateTransform
+                						X="-2.532"/>
+                				</TransformGroup>
+                			</Image.RenderTransform>
+                		</Image>
+                	</InlineUIContainer><LineBreak/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI " Text="Fornecedoras de Tecnologia"/><Run FontSize="24" FontFamily="Segoe UI " Text=":"/><LineBreak/><LineBreak/><LineBreak/><InlineUIContainer>
+                		<Image Height="124" Width="444">
+                			<Image.Source>
+                				<ImageSource>Images/Microsoft_logo_(2012).svg.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><Run/><LineBreak/><LineBreak/><Run FontSize="34" Text="○&#x9;DreamSpark&#xA;○&#x9;Ambiente Azure&#xA;○&#x9;MIC"/><LineBreak/><LineBreak/><InlineUIContainer>
+                		<Image Height="124" Width="444">
+                			<Image.Source>
+                				<ImageSource>Images/IBM-logo-blue.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><Run/><LineBreak/><LineBreak/><Run FontSize="34" Text="○&#x9;Acesso aos softwares IBM(Rational | WebSphere | Lotus |"/><LineBreak/><Run FontSize="34" Text="&#x9;"/><Run FontSize="34" Text="Tivoli)&#xA;○&#x9;Cursos Gratuitos&#xA;○&#x9;Apoio a certificação(Custo de R$30,00 por aluno)&#xA;○&#x9;DeveloperWorks(Artigos, softwares trial, networking, "/><LineBreak/><Run FontSize="34" Text="&#x9;"/><Run FontSize="34" Text="guias)&#xA;○&#x9;Ambiente Cloud Bluemix(Vouchers para professores e "/><LineBreak/><Run FontSize="34" Text="&#x9;"/><Run FontSize="34" Text="alunos por  e 12 meses)"/><LineBreak/><LineBreak/><InlineUIContainer>
+                		<Image Height="124" Width="444">
+                			<Image.Source>
+                				<ImageSource>Images/SAP_University_Alliances_Logo.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><Run/><LineBreak/><LineBreak/><Run FontSize="34" Text="○&#x9;Acesso aos softwares SAP(SAP ERP | SAP Hana | SAP "/><LineBreak/><Run FontSize="34" Text="&#x9;"/><Run FontSize="34" Text="NetWeaver)&#xA;○&#x9;Learning Center - Cursos gratuitos&#xA;○&#x9;Simuladores do SAP ERP&#xA;○&#x9;Comunidade SAP University Alliances(Eventos,"/><Run FontSize="34" Text="&#x9;&#x9;"/><Run FontSize="34" Text=" "/><Run FontSize="34" Text="&#x9;"/><Run FontSize="34" Text="conferências, conteúdo)"/><LineBreak/><LineBreak/><InlineUIContainer>
+                		<Image Height="124" Width="444">
+                			<Image.Source>
+                				<ImageSource>Images/free-vector-oracle-logo_090495_Oracle_logo.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><Run/><LineBreak/><LineBreak/><Run FontSize="34" Text="○&#x9;Acesso aos softwares Oracle&#xA;○&#x9;Cursos gratuitos"/><LineBreak/><LineBreak/><InlineUIContainer>
+                		<Image Height="124" Width="444">
+                			<Image.Source>
+                				<ImageSource>Images/RedHat.svg.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><Run/><LineBreak/><LineBreak/><Run FontSize="34" Text="○&#x9;Acesso aos softwares abertos&#xA;○&#x9;Comunidade e grupos de estudo"/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI "/><LineBreak/><Run Text="&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;             "/><InlineUIContainer>
+                		<k:KinectCircleButton Label="Back" Height="120" Width="120" HorizontalAlignment="Right" Foreground="Transparent" Click="KinectCircleButton_Click">
+                			<k:KinectCircleButton.Background>
+                				<ImageBrush ImageSource="Vectors/arrows (1).png" Stretch="Uniform"/>
+                			</k:KinectCircleButton.Background>
+                		</k:KinectCircleButton>
+                	</InlineUIContainer><LineBreak/><Run Text=""/><LineBreak/><LineBreak/><LineBreak/><LineBreak/><LineBreak/><Run/><LineBreak/><LineBreak/><Run Text="c"/><LineBreak/></TextBlock>
+            </k:KinectScrollViewer>
+        </k:KinectRegion>
+    </Grid>
+</Window>

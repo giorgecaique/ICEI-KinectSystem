@@ -1,0 +1,190 @@
+﻿<Window x:Class="ICEI_Kinect.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
+        xmlns:local="clr-namespace:ICEI_Kinect"
+        Name="ICEI_Kinect"
+        mc:Ignorable="d"
+        Title="ICEI" 
+        d:DesignWidth="1200"
+        d:DesignHeight="700"
+        MinWidth="500"
+        MinHeight="700"
+        FontFamily="Segoe UI" ResizeMode="NoResize" WindowState="Maximized"
+        >
+
+    <!--#region Resources-->
+    <Window.Resources>
+        <PathGeometry x:Key="ChevronGeometry" x:Shared="False">
+            F1M150.001,146.9932L126.565,169.3822L126.565,153.5962L150.001,130.6182L173.435,153.5962L173.435,169.3822z
+        </PathGeometry>
+
+        <Path x:Key="ChevronUp" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronRight" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronDown" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronLeft" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Style x:Key="KinectHandControlStye" TargetType="{x:Type local:KinectHandControl}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:KinectHandControl}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsHandPointerOver" Value="True">
+                    <Setter Property="Background" Value="#5A5B5B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <!--#endregion-->
+    
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFBFBEBE" Offset="1"/>
+            <GradientStop Color="White" Offset="0.183"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"  Margin="20,0,0,20" Grid.ColumnSpan="2">
+
+            <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="None" Margin="0 0 0 4"/>
+            <k:KinectUserViewer k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+            <Image x:Name="image" HorizontalAlignment="Left" Height="135" Margin="0,10,0,-45" VerticalAlignment="Top" Width="330" Source="Images/2016-04-24 (5).png" Stretch="Fill">
+                <Image.OpacityMask>
+                    <ImageBrush ImageSource="Images/2016-04-24 (5).png"/>
+                </Image.OpacityMask>
+            </Image>
+            <Image x:Name="image1" HorizontalAlignment="Left" Height="145" VerticalAlignment="Top" Width="120" Margin="330,0,0,-45" Source="Images/pucminas-6d91f478675977540c7ea2ebdf0e43b6.png"/>
+        </Grid>
+
+        <k:KinectRegion Grid.Row="1" x:Name="kinectRegion" Grid.ColumnSpan="2">
+            <Grid x:Name="kinectRegionGrid" Margin="10,20,10,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="170" />
+                </Grid.RowDefinitions>
+                <k:KinectScrollViewer Grid.Row="0" Name="scrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10" Grid.RowSpan="2">
+                    <WrapPanel VerticalAlignment="Center" x:Name="wrapPanel" Orientation="Vertical">
+                        <k:KinectTileButton x:Name="AboutICEI_Button" Label="Sobre o ICEI" FontFamily="Segoe UI" Click="AboutICEI_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/2016-04-24 (5).png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="MIC_Button" Label="MIC" Width="415" Click="MIC_Button_Click">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/mic.png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="CC_Button" Label="Ciência da Computação" Click="CC_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/Serviços-de-Tecnologia-da-Informação.jpg"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="EC_Button" Label="Engenharia de Computação" Click="EC_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/bcc.png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="SI_Button" Label="Sistemas de Informação" Click="SI_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/banner.jpg"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="ES_Button" Label="Engenharia de Software" Click="ES_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/programacao_CAPA.png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="JD_Button" Label="Jogos Digitais" Click="JD_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/Xbox_360.png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="Math_Button" Label="Matemática" Click="Math_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/o-MATHS-facebook.jpg"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="Physics_Button" Label="Física" Click="Physics_Button_Click" Width="415">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/science-lover.jpg"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="DS_Button" Label="DreamSpark" Width="415" Click="DS_Button_Click">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/dreamspark.png"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                        <k:KinectTileButton x:Name="Partner_Button" Label="Parcerias" Width="415" Click="Partner_Button_Click">
+                            <k:KinectTileButton.Background>
+                                <ImageBrush ImageSource="Images/Hero_Business_Capabilities-Overview-desktop_0.jpg"/>
+                            </k:KinectTileButton.Background>
+                        </k:KinectTileButton>
+                    </WrapPanel>
+                </k:KinectScrollViewer>
+            </Grid>
+        </k:KinectRegion>
+    </Grid>
+
+</Window>

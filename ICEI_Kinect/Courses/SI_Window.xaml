@@ -1,0 +1,139 @@
+﻿<Window x:Class="ICEI_Kinect.SI_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ICEI_Kinect"
+        mc:Ignorable="d"
+        Title="ICEI" Height="768" Width="1360" ResizeMode="NoResize" WindowState="Maximized">
+
+    <!--#region Resources -->
+    <Window.Resources>
+        <PathGeometry x:Key="ChevronGeometry" x:Shared="False">
+            F1M150.001,146.9932L126.565,169.3822L126.565,153.5962L150.001,130.6182L173.435,153.5962L173.435,169.3822z
+        </PathGeometry>
+
+        <Path x:Key="ChevronUp" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronRight" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronDown" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronLeft" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Style x:Key="KinectHandControlStye" TargetType="{x:Type local:KinectHandControl}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:KinectHandControl}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsHandPointerOver" Value="True">
+                    <Setter Property="Background" Value="#5A5B5B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <!--#endregion-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0"  Height="110" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Background="#FF681BB6"  >
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Sistemas&#xD;&#xA;de Informação" FontFamily="Segoe UI Light" FontSize="40" Width="383" Foreground="White" Margin="41,-8,0,0"></Label>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="None" Margin="0 0 0 4"/>
+            <k:KinectUserViewer k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+            <Image x:Name="imge" HorizontalAlignment="Right" Height="327" Margin="1222,467,0,-684" VerticalAlignment="Top" Width="141" Source="/ICEI_Kinect;component/Avatars/Avatar5.jpg"/>
+        </Grid>
+        <k:KinectRegion Grid.Row="1" x:Name="kinectRegion" Grid.ColumnSpan="2">
+            <k:KinectScrollViewer Width="890">
+                <TextBlock FontSize="34" Height="2580" Width="875" FontFamily="Segoe UI Light"><InlineUIContainer>
+                		<Image
+            d:DesignUseLayoutRounding="True" Width="875" UseLayoutRounding="True" Stretch="Fill" x:Name="image" Height="219">
+                			<Image.Source
+            >
+                				<ImageSource
+            >/ICEI_Kinect;component/Images/banner.jpg</ImageSource>
+                			</Image.Source>
+                			<Image.RenderTransform
+            >
+                				<TransformGroup
+            >
+                					<ScaleTransform
+            />
+                					<SkewTransform
+            AngleX="-1.375"/>
+                					<RotateTransform
+            />
+                					<TranslateTransform
+            X="-2.532"/>
+                				</TransformGroup>
+                			</Image.RenderTransform>
+                		</Image>
+                	</InlineUIContainer><LineBreak/><LineBreak/><Run Text="Você quer desenvolver soluções para as empresas com apoio"/><LineBreak/><Run Text="da informática"/><Run Text="?"/><LineBreak/><Run/><LineBreak/><Run Text="Você quer desenvolver sistemas computacionais que"/><LineBreak/><Run Text="permitam que empresas da atualidade"/><Run Text=" "/><Run Text="sejam competitivas"/><Run Text="?"/><LineBreak/><Run/><LineBreak/><Run Text="O curso de "/><Run Text="Sistemas de Informação "/><Run Text="é a sua escolha!"/><LineBreak/><Run Text=""/><LineBreak/><Run FontFamily="Segoe UI " Text="Características do Curso:"/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI " Text=""/><LineBreak/><Run Text="Por sua característica interdisciplinar, o curso de Bacharelado"/><LineBreak/><Run Text="em Sistemas de Informação oferece uma formação que"/><LineBreak/><Run Text="mescla computação, administração e ciência da informação, "/><LineBreak/><Run Text="v"/><Run Text="oltado às aplicações da Tecnologia de Informação e "/><LineBreak/><Run Text="C"/><Run Text="omunicação e sua integração ao ambiente"/><Run Text=" "/><Run Text="organizacional."/><LineBreak/><Run/><LineBreak/><Run Text="O Curso contempla os conteúdos necessários ao"/><LineBreak/><Run Text="desenvolvimento acadêmico e tecnológico do profissional "/><LineBreak/><Run Text="em Sistema de Informação nos"/><Run Text=" "/><Run Text="seguintes eixos de formação:"/><LineBreak/><Run/><LineBreak/><Run Text="1. Projeto e desenvolvimento de sistemas: implementação,"/><LineBreak/><Run Text="análise, projeto, e teste."/><LineBreak/><Run/><LineBreak/><Run Text="2. Infraestrutura de rede: projeto, configuração e gestão da"/><LineBreak/><Run Text="segurança da informação."/><LineBreak/><Run/><LineBreak/><Run Text="3. Bancos de dados e tratamento da informação: bancos de"/><LineBreak/><Run Text="dados, inteligência artificial, e recuperação da informação"/><Run Text="."/><LineBreak/><Run/><LineBreak/><Run Text="4. Governança de TI: gestão de sistemas, gerência de"/><LineBreak/><Run Text="projetos, governança, e modelagem de processos."/><LineBreak/><LineBreak/><Run Text="Além disso, o Curso propicia uma formação humanística,"/><LineBreak/><Run Text="dedicando-se ao estudo dos conhecimentos relacionados ao"/><LineBreak/><Run Text="empreendedorismo e inovação, à legislação e ao impacto do"/><LineBreak/><Run Text="uso dos computadores na sociedade, e aos aspectos éticos"/><LineBreak/><Run Text="essenciais ao profissional."/><LineBreak/><Run Text=""/><LineBreak/><Run FontFamily="Segoe UI " Text="Campus: "/><Run Text="São Gabriel, Arcos, Barreiro, Betim, Contagem"/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="Duração: 4"/><Run Text=" Anos"/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="Modalidade: "/><Run Text="Bacharelado"/><LineBreak/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="SEJA UM ANALISTA DE SISTEMAS!"/><LineBreak/><Run Text="                                                                               "/><InlineUIContainer/><LineBreak/><LineBreak/><Run Text="&#x9;&#x9;&#x9;&#x9;&#x9;      "/><InlineUIContainer>
+                		<k:KinectCircleButton
+            Width="120" VerticalAlignment="Bottom" Height="120" HorizontalAlignment="Right" Foreground="Transparent" Click="KinectCircleButton_Click">
+                			<k:KinectCircleButton.Background
+            >
+                				<ImageBrush
+            ImageSource="/ICEI_Kinect;component/Vectors/arrows (1).png" Stretch="Uniform"/>
+                			</k:KinectCircleButton.Background>
+                		</k:KinectCircleButton>
+                	</InlineUIContainer><LineBreak/><LineBreak/><LineBreak/></TextBlock>
+            </k:KinectScrollViewer>
+        </k:KinectRegion>
+    </Grid>
+</Window>

@@ -1,0 +1,132 @@
+﻿<Window x:Class="ICEI_Kinect.AboutICEI"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ICEI_Kinect"
+        mc:Ignorable="d"
+        Title="ICEI" Height="700" Width="1200" ResizeMode="NoResize" WindowState="Maximized" ShowInTaskbar="False">
+    <!--#region Resources -->
+    <Window.Resources>
+        <PathGeometry x:Key="ChevronGeometry" x:Shared="False">
+            F1M150.001,146.9932L126.565,169.3822L126.565,153.5962L150.001,130.6182L173.435,153.5962L173.435,169.3822z
+        </PathGeometry>
+
+        <Path x:Key="ChevronUp" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronRight" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronDown" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronLeft" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Style x:Key="KinectHandControlStye" TargetType="{x:Type local:KinectHandControl}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:KinectHandControl}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsHandPointerOver" Value="True">
+                    <Setter Property="Background" Value="#5A5B5B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFCBCBCB" Offset="0.978"/>
+            <GradientStop Color="White"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <!--#endregion-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"  Height="110" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Background="#FF681BB6"  >
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content=" ICEI" FontFamily="Segoe UI Light" FontSize="50" Foreground="White"></Label>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="None" Margin="0 0 0 4"/>
+            <k:KinectUserViewer k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+        </Grid>
+        <k:KinectRegion Grid.Row="1" x:Name="kinectRegion" Grid.ColumnSpan="2">
+            <k:KinectScrollViewer Width="890">
+                <TextBlock FontSize="34" Height="2995" FontFamily="Segoe UI Light" Width="875"><Run/><LineBreak/><Run/><LineBreak/><InlineUIContainer>
+                		<Image
+                			Width="875" Height="219" Stretch="Fill" Source="Images/tech.png" RenderTransformOrigin="0.44,0.39" x:Name="image"/>
+                	</InlineUIContainer><LineBreak/><Run/><LineBreak/><Run Text="O Instituto de Ciências Exatas e Informática (ICEI) da PUC "/><LineBreak/><Run Text="Minas foi criado em 2010, como"/><Run Text=" "/><Run Text="resultado da i"/><Run Text="ntegração do "/><LineBreak/><Run Text="extinto Instituto de Informática com os departamentos de"/><LineBreak/><Run Text="Matemática e Estatística (DME) e de Fí"/><Run Text="sica e Química (DFQ)."/><LineBreak/><Run Text="Assim, na área de Ciências"/><Run Text=" "/><Run Text="Exatas e Informática, o ICEI é"/><LineBreak/><Run Text="responsável pelo ensino de graduação e pós-graduação,"/><LineBreak/><Run Text="pela pesquisa e extensão."/><LineBreak/><Run/><LineBreak/><Run FontFamily="Segoe UI " Text="Cursos:"/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI "/><LineBreak/><Run Text="○&#x9;Ciência da Computação&#xA;○&#x9;Sistemas de Informação&#xA;○&#x9;Engenharia de Computação"/><Run Text="&#xA;○&#x9;Engenharia de Software&#xA;○&#x9;Matemática&#xA;○&#x9;Física"/><LineBreak/><Run/><InlineUIContainer>
+                		<Image Height="955" Width="813">
+                			<Image.Source>
+                				<ImageSource>Images/cursosTI.png</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><LineBreak/><LineBreak/><Run FontSize="34.667" FontFamily="Segoe UI " Text="Cursos de Pós-Graduação:"/><Run FontFamily="Segoe UI " Text="&#xA;&#xA;"/><InlineUIContainer>
+                		<Image Height="127" Stretch="Fill" Width="550">
+                			<Image.Source>
+                				<ImageSource>Images/geral-sem-data.jpg</ImageSource>
+                			</Image.Source>
+                		</Image>
+                	</InlineUIContainer><LineBreak/><LineBreak/><Run Text="○&#x9;Iato Sensu"/><Run Text="(Especialização)"/><Run Text="&#xA;○&#x9;Stricto Sensu"/><Run Text="(Mestrado/Doutorado)"/><LineBreak/><Run/><LineBreak/><Run Text=" "/><Run Text="&#xA;"/><Run FontFamily="Segoe UI " Text="Projetos de extensão: Academia e sociedade"/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="Projeto de pesquisa: Iniciação ciêntifica"/><LineBreak/><LineBreak/><Run Text="&#xA;"/><Run Text="                                                 "/><Run Text="&#x9;&#x9;      "/><InlineUIContainer>
+                		<k:KinectCircleButton Foreground="Transparent" Height="120" Width="120" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="KinectCircleButton_Click" >
+                			<k:KinectCircleButton.Background>
+                				<ImageBrush ImageSource="/ICEI_Kinect;component/Vectors/arrows (1).png" Stretch="Uniform"/>
+                			</k:KinectCircleButton.Background>
+                		</k:KinectCircleButton>
+                	</InlineUIContainer><Run Text="                                                                          "/><Run Text="&#x9;&#x9;&#x9;&#x9;&#x9;  "/><InlineUIContainer/></TextBlock>
+            </k:KinectScrollViewer>
+
+        </k:KinectRegion>
+    </Grid>
+</Window>

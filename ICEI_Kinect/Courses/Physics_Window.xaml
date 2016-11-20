@@ -1,0 +1,138 @@
+﻿<Window x:Class="ICEI_Kinect.Physics_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:k="http://schemas.microsoft.com/kinect/2013"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ICEI_Kinect"
+        mc:Ignorable="d"
+        Title="ICEI" Height="768" Width="1360" ResizeMode="NoResize" WindowState="Maximized">
+    <!--#region Resource-->
+    <Window.Resources>
+        <PathGeometry x:Key="ChevronGeometry" x:Shared="False">
+            F1M150.001,146.9932L126.565,169.3822L126.565,153.5962L150.001,130.6182L173.435,153.5962L173.435,169.3822z
+        </PathGeometry>
+
+        <Path x:Key="ChevronUp" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="0"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronRight" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="90"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronDown" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Path x:Key="ChevronLeft" Height="48" Width="48" Stretch="Uniform" Canvas.Top="0" x:Shared="False"
+          Data="{StaticResource ChevronGeometry}"
+          Fill="{Binding FallbackValue=Black, Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type local:KinectHandControl}}}">
+            <Path.RenderTransformOrigin>0.5,0.5</Path.RenderTransformOrigin>
+            <Path.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Path.RenderTransform>
+        </Path>
+
+        <Style x:Key="KinectHandControlStye" TargetType="{x:Type local:KinectHandControl}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:KinectHandControl}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="{TemplateBinding Content}"></ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                    <Setter Property="BorderBrush" Value="LightGray"/>
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsHandPointerOver" Value="True">
+                    <Setter Property="Background" Value="#5A5B5B"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <!--#endregion-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="59*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0"  Height="110" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Background="#FF681BB6"  >
+            <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Física" FontFamily="Segoe UI Light" FontSize="40" Width="383" Foreground="White" Margin="41,-8,0,0"></Label>
+            <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="None" Margin="0 0 0 4"/>
+            <k:KinectUserViewer k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" />
+            <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+            <Image x:Name="imge" HorizontalAlignment="Right" Height="327" Margin="1222,467,0,-684" VerticalAlignment="Top" Width="141" Source="/ICEI_Kinect;component/Avatars/Avatar3.jpg"/>
+        </Grid>
+        <k:KinectRegion Grid.Row="1" x:Name="kinectRegion" Grid.ColumnSpan="2">
+            <k:KinectScrollViewer Width="890">
+                <TextBlock FontSize="34" Height="1780" Width="875                            " FontFamily="Segoe UI Light"><InlineUIContainer>
+                		<Image
+            d:DesignUseLayoutRounding="True" Width="875" UseLayoutRounding="True" Stretch="Fill" RenderTransformOrigin="0.5,0.5" x:Name="image" Height="219">
+                			<Image.Source
+            >
+                				<ImageSource
+            >/ICEI_Kinect;component/Images/science-lover.jpg</ImageSource>
+                			</Image.Source>
+                			<Image.RenderTransform
+            >
+                				<TransformGroup
+            >
+                					<ScaleTransform
+            />
+                					<SkewTransform
+            AngleX="-1.375"/>
+                					<RotateTransform
+            />
+                					<TranslateTransform
+            X="-2.532"/>
+                				</TransformGroup>
+                			</Image.RenderTransform>
+                		</Image>
+                	</InlineUIContainer><LineBreak/><LineBreak/><Run Text="Você "/><Run Text="tem gosto pel"/><Run Text="a ciência"/><Run Text="?"/><LineBreak/><Run/><LineBreak/><Run Text="Você quer "/><Run Text="se tornar um professor de Ensino Fundamental e"/><LineBreak/><Run Text="Médio"/><Run Text="?"/><LineBreak/><LineBreak/><Run Text="O curso de "/><Run Text="Física "/><Run Text="é a sua escolha!"/><LineBreak/><Run Text=""/><LineBreak/><Run FontFamily="Segoe UI " Text="Características do Curso:"/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI " Text=""/><LineBreak/><Run Text="O curso tem como foco a ética de atuação profissional e a"/><LineBreak/><Run Text="conseqüente responsabilidade social, compreendendo a"/><LineBreak/><Run Text="ciência como conhecimento histórico, desenvolvido em"/><LineBreak/><Run Text="diferentes contextos sociais, políticos, culturais e econômicos."/><LineBreak/><Run Text="Problemas físicos, experimentais ou teóricos, práticos ou "/><LineBreak/><Run Text="abstratos, fazendo uso de instrumentos laboratoriais ou "/><LineBreak/><Run Text="matemáticos apropriados. Princípios gerais e fundamentos da"/><LineBreak/><Run Text="física clássica e moderna. "/><LineBreak/><Run Text="A utilização de equipamentos de informática para simulação"/><LineBreak/><Run Text="e tratamento de dados experimentais."/><LineBreak/><Run Text=""/><LineBreak/><Run FontFamily="Segoe UI " Text="Campus: Coração Eucarístico"/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="Duração: 4"/><Run Text=" Anos"/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="Modalidade: Licenciatura"/><LineBreak/><LineBreak/><LineBreak/><Run FontFamily="Segoe UI " Text="SEJA UM FÍSICO!"/><LineBreak/><Run FontSize="24" FontFamily="Segoe UI "/><LineBreak/><Run Text="                                                                                        "/><LineBreak/><Run Text="&#x9;&#x9;&#x9;&#x9;&#x9;      "/><InlineUIContainer>
+                		<k:KinectCircleButton
+            Width="120" VerticalAlignment="Bottom" Height="120" HorizontalAlignment="Right" Foreground="Transparent" Click="KinectCircleButton_Click">
+                			<k:KinectCircleButton.Background
+            >
+                				<ImageBrush
+            ImageSource="/ICEI_Kinect;component/Vectors/arrows (1).png" Stretch="Uniform"/>
+                			</k:KinectCircleButton.Background>
+                		</k:KinectCircleButton>
+                	</InlineUIContainer><LineBreak/><Run/><LineBreak/><LineBreak/><LineBreak/></TextBlock>
+            </k:KinectScrollViewer>
+        </k:KinectRegion>
+    </Grid>
+</Window>
