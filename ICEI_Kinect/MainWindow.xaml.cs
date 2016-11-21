@@ -33,7 +33,6 @@ namespace ICEI_Kinect
             InitializeComponent();
 
             // initialize the sensor chooser and UI
-            //this.sensorChooser = new KinectSensorChooser();
             sensorChooser = chooser;
             var regionSensorBinding = new Binding("Kinect") { Source = this.sensorChooser };
             BindingOperations.SetBinding(this.kinectRegion, KinectRegion.KinectSensorProperty, regionSensorBinding);
